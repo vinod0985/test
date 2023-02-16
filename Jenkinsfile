@@ -1,27 +1,26 @@
 import jenkins.model.*
 pipeline {
-  agent any   	
-   stages {     
+   agent any
 
-	  stage('SonarQubeScan') {
-  		steps {
-   		 ansiColor('xterm') {     		 
-     		 script {
-       		    dir("maven-1"){
-                      sh '''
-				   sonar-scanner -Dproject.settings=./sonar-project.properties
-				  '''
-        	    }
-			  timeout(time: 1, unit: 'HOURS') {
-         	  waitForQualityGate abortPipeline: false
-        	}
-		    }
-		}
-		}
-		}		   
-		  
-
-}    		   
-
-    
-}
+   stages {
+     stage() {
+      steps {
+        ansiColor('x-term') {
+          script {
+            dir("maven-1") {
+              docker.withRegistry('https://hub.docker.com', 'demo') {
+                docker.image("magalam87/sonar-scanner:v1").inside(){
+                withSonrQubeEnv('sonarqube'){
+                  sh """
+                      sonar-scanner -Dproject.setting=./sonar-project.properties
+                      """;
+                }
+                }
+              }
+            }
+          }
+        }
+      }
+     }
+	      }
+   }
