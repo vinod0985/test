@@ -7,7 +7,7 @@ pipeline {
       steps {
         ansiColor('x-term') {
           script {
-            dir("maven-1") {
+            dir("eric-swgwda") {
               docker.withRegistry('https://registry.hub.docker.com', 'demo') {
                 docker.image("magalam87/sonar-scanner:v1").inside(){
                 withSonarQubeEnv('sonarqube'){
