@@ -1,25 +1,24 @@
 import jenkins.model.*
 pipeline {
- agent any
-  stages {
-    stage('demo') {
-      steps {
-	     script{
-           dir(maven-1) {
-            withSonarQubeEnv('sonarqube') {
-               sh """
-                 		  ls -lrta			          
-				              sonar-scanner -Dproject.settings=./sonar-project.properties
-                  """
-	          }
-         }
-         sleep(10)  
-       		 timeout(time: 1, unit: 'HOURS') {
-         	 waitForQualityGate abortPipeline: false
-        	}
-	         
-	      }
-        }
-      }
-    }
+  agent any   	
+   stages {     
+
+	  stage('SonarQubeScan') {
+  		steps {
+   		 ansiColor('xterm') {     		 
+     		 script {
+       		    dir("maven-1"){
+                      sh '''
+				   sonar-scanner -Dproject.settings=./sonar-project.properties
+				  '''
+        	    }
+		    }
+		}
+		}
+		}		   
+		  
+
+}    		   
+
+    
 }
