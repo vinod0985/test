@@ -3,7 +3,7 @@ pipeline {
    agent any
 
    stages {
-     stage() {
+     stage('sonar') {
       steps {
         ansiColor('x-term') {
           script {
