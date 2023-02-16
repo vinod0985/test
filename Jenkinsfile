@@ -12,6 +12,7 @@ pipeline {
                 docker.image("magalam87/sonar-scanner:v1").inside(){
                 withSonarQubeEnv('sonarqube'){
                   sh """
+		      ls -lrt
                       sonar-scanner -Dproject.setting=./sonar-project.properties
                       """;
                 }
